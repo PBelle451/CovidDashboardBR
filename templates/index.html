@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard COVID-19 - Brasil</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Dashboard COVID-19 - Brasil</h1>
+
+    <button id="darkModeToggle">Alternar Modo Escuro</button>
+
+    <div class="grafico-container">
+        <h2>Novos Casos Diários</h2>
+        <div id="grafico_casos"></div>
+    </div>
+
+    <div class="grafico-container">
+        <h2>Novas Mortes Diárias</h2>
+        <div id="grafico_mortes"></div>
+    </div>
+
+    <div class="grafico-container">
+        <h2>Total de Pessoas Vacinadas</h2>
+        <div id="grafico_vacinados"></div>
+    </div>
+
+    <footer>
+        Fonte dos dados: Our World in Data
+    </footer>
+
+    <script>
+        // Renderização dos gráficos
+        var graphCasos = {{ graphJSON_casos | safe }};
+        Plotly.newPlot('grafico_casos', graphCasos.data, graphCasos.layout);
+
+        var graphMortes = {{ graphJSON_mortes | safe }};
+        Plotly.newPlot('grafico_mortes', graphMortes.data, graphMortes.layout);
+
+        var graphVacinas = {{ graphJSON_vacinados | safe }};
+        Plotly.newPlot('grafico_vacinados', graphVacinas.data, graphVacinas.layout);
+
+        // Função para alternar Dark Mode
+        const toggleButton = document.getElementById('darkModeToggle');
+        toggleButton.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
+</body>
+</html>
